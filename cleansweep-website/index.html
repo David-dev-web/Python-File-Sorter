@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Project CleanSweep - Automatisches Aufräum-Tool</title>
+    <link rel="stylesheet" href="style.css">
+    <!-- Google Fonts für Code-Darstellung -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;700&family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
+    <!-- Bibliothek zum Kopieren von Code -->
+    <script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.11/dist/clipboard.min.js"></script>
+</head>
+<body>
+
+    <div class="container">
+        <header>
+            <h1>🧹 Project CleanSweep</h1>
+            <p class="subtitle">Ein intelligentes Python-Skript zur automatischen Organisation deines <code>Downloads</code>-Ordners.</p>
+        </header>
+
+        <main>
+            <section class="features">
+                <div class="feature-item">
+                    <h3>Automatische Sortierung</h3>
+                    <p>Verschiebt Dateien basierend auf Typen wie Software, Dokumente und Bilder in dedizierte Ordner.</p>
+                </div>
+                <div class="feature-item">
+                    <h3>Intelligente Archivierung</h3>
+                    <p>Archiviert automatisch Dateien, die älter als 90 Tage sind, um Platz zu schaffen.</p>
+                </div>
+                <div class="feature-item">
+                    <h3>Plattformunabhängig</h3>
+                    <p>Erkennt dein Betriebssystem (Windows/Linux ) und passt die Dateipfade automatisch an.</p>
+                </div>
+            </section>
+
+            <section class="code-display">
+                <h2>Der Code</h2>
+                <p>Das gesamte Skript ist Open Source. Du kannst es hier ansehen und direkt kopieren.</p>
+                
+                <div class="code-wrapper">
+                    <button class="copy-button" data-clipboard-target="#code-block">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+                        <span>Kopieren</span>
+                    </button>
+                    <pre><code id="code-block" class="language-python">
+# 🧹 cleansweep.py
+# Ein intelligentes Python-Skript zur Organisation des Downloads-Ordners.
+
+import os
+import shutil
+import time
+from pathlib import Path
+import platform
+
+# --- KONFIGURATION ---
+USER_HOME = os.path.expanduser('~' )
+
+if platform.system() == "Windows":
+    ZIEL_BASIS_PFAD = os.path.join(USER_HOME, 'OneDrive', 'Desktop', 'stuff')
+else:
+    ZIEL_BASIS_PFAD = os.path.join(USER_HOME, 'Desktop', 'stuff')
+
+DOWNLOADS_PFAD = os.path.join(USER_HOME, 'Downloads')
+
+ORDNER_REGELN = {
+    "1_Projekte": ['.zip', '.rar', '.7z'],
+    "2_Software": ['.exe', '.msi', '.dmg', '.deb'],
+    "3_Assets": ['.png', '.jpg', '.jpeg', '.svg', '.mp3', '.wav'],
+    "4_Dokumente": ['.pdf', '.docx', '.txt', '.md'],
+    "5_Archiv": [],
+    "6_Betriebssysteme-Treiber-Isos": ['.iso']
+}
+ARCHIV_ALTER_TAGE = 90
+
+# ... (Der Rest des Python-Codes würde hier folgen)
+# (Aus Platzgründen gekürzt, aber in der echten Datei wäre alles drin)
+
+print("CleanSweep initialisiert. Bereit zum Aufräumen.")
+
+                    </code></pre>
+                </div>
+            </section>
+
+            <section class="call-to-action">
+                <h2>Bereit zum Aufräumen?</h2>
+                <p>Hol dir das vollständige Skript, die Anleitung und trage zum Projekt bei – alles auf GitHub.</p>
+                <a href="https://github.com/DEIN-GITHUB-NAME/CleanSweep" target="_blank" class="github-button">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg>
+                    <span>Projekt auf GitHub ansehen</span>
+                </a>
+            </section>
+        </main>
+
+        <footer>
+            <p>&copy; 2025 David. Ein Open-Source-Projekt.</p>
+        </footer>
+    </div>
+
+    <script>
+        // Initialisiert die "Kopieren"-Funktionalität
+        const clipboard = new ClipboardJS('.copy-button' );
+
+        clipboard.on('success', function(e) {
+            const button = e.trigger;
+            const originalText = button.querySelector('span').textContent;
+            button.querySelector('span').textContent = 'Kopiert!';
+            button.classList.add('success');
+
+            setTimeout(() => {
+                button.querySelector('span').textContent = originalText;
+                button.classList.remove('success');
+            }, 2000);
+
+            e.clearSelection();
+        });
+    </script>
+
+</body>
+</html>
