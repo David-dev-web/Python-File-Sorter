@@ -17,6 +17,7 @@ body {
     margin: 0;
     line-height: 1.7;
     -webkit-font-smoothing: antialiased;
+    overflow-x: hidden; /* Verhindert horizontales Scrollen durch Animationen */
 }
 
 .container {
@@ -84,6 +85,12 @@ section > p {
     padding: 30px;
     border: 1px solid var(--border-color);
     border-radius: 12px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.feature-item:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.2);
 }
 
 .feature-item h3 {
@@ -169,4 +176,9 @@ footer {
     padding: 40px 0;
     border-top: 1px solid var(--border-color);
     color: var(--text-secondary);
+}
+
+/* NEU: Animations-Vorbereitung */
+.anim {
+    opacity: 0; /* Elemente sind anfangs unsichtbar */
 }
