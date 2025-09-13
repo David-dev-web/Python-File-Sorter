@@ -5,12 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Project CleanSweep - Automatisches Aufräum-Tool</title>
     <link rel="stylesheet" href="style.css">
-    <!-- Google Fonts für Code-Darstellung -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;700&family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
-    <!-- Bibliothek zum Kopieren von Code -->
     <script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.11/dist/clipboard.min.js"></script>
+    
+    <!-- NEU: GSAP Animations-Bibliothek -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.4/gsap.min.js" defer></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.4/ScrollTrigger.min.js" defer></script>
 </head>
 <body>
 
@@ -115,6 +117,29 @@ print("CleanSweep initialisiert. Bereit zum Aufräumen.")
             }, 2000);
 
             e.clearSelection();
+        });
+
+        // NEU: GSAP Animationen
+        document.addEventListener('DOMContentLoaded', () => {
+            gsap.registerPlugin(ScrollTrigger);
+
+            // Animation für alle Elemente mit der Klasse .anim
+            gsap.utils.toArray('.anim').forEach(element => {
+                gsap.fromTo(element, 
+                    { opacity: 0, y: 50 }, // Start-Zustand
+                    {
+                        opacity: 1,
+                        y: 0,
+                        duration: 0.8,
+                        ease: 'power3.out',
+                        scrollTrigger: {
+                            trigger: element,
+                            start: 'top 85%', // Animation startet, wenn 85% des Elements sichtbar sind
+                            toggleActions: 'play none none none',
+                        }
+                    }
+                );
+            });
         });
     </script>
 
