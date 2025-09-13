@@ -10,7 +10,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;700&family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.11/dist/clipboard.min.js"></script>
     
-    <!-- NEU: GSAP Animations-Bibliothek -->
+    <!-- GSAP Animations-Bibliothek -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.4/gsap.min.js" defer></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.4/ScrollTrigger.min.js" defer></script>
 </head>
@@ -18,31 +18,31 @@
 
     <div class="container">
         <header>
-            <h1>🧹 Project CleanSweep</h1>
-            <p class="subtitle">Ein intelligentes Python-Skript zur automatischen Organisation deines <code>Downloads</code>-Ordners.</p>
+            <h1 class="anim">🧹 Project CleanSweep</h1>
+            <p class="subtitle anim">Ein intelligentes Python-Skript zur automatischen Organisation deines <code>Downloads</code>-Ordners.</p>
         </header>
 
         <main>
             <section class="features">
-                <div class="feature-item">
+                <div class="feature-item anim">
                     <h3>Automatische Sortierung</h3>
                     <p>Verschiebt Dateien basierend auf Typen wie Software, Dokumente und Bilder in dedizierte Ordner.</p>
                 </div>
-                <div class="feature-item">
+                <div class="feature-item anim">
                     <h3>Intelligente Archivierung</h3>
                     <p>Archiviert automatisch Dateien, die älter als 90 Tage sind, um Platz zu schaffen.</p>
                 </div>
-                <div class="feature-item">
+                <div class="feature-item anim">
                     <h3>Plattformunabhängig</h3>
                     <p>Erkennt dein Betriebssystem (Windows/Linux ) und passt die Dateipfade automatisch an.</p>
                 </div>
             </section>
 
             <section class="code-display">
-                <h2>Der Code</h2>
-                <p>Das gesamte Skript ist Open Source. Du kannst es hier ansehen und direkt kopieren.</p>
+                <h2 class="anim">Der Code</h2>
+                <p class="anim">Das gesamte Skript ist Open Source. Du kannst es hier ansehen und direkt kopieren.</p>
                 
-                <div class="code-wrapper">
+                <div class="code-wrapper anim">
                     <button class="copy-button" data-clipboard-target="#code-block">
                         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
                         <span>Kopieren</span>
@@ -77,8 +77,7 @@ ORDNER_REGELN = {
 }
 ARCHIV_ALTER_TAGE = 90
 
-# ... (Der Rest des Python-Codes würde hier folgen)
-# (Aus Platzgründen gekürzt, aber in der echten Datei wäre alles drin)
+# (Der Rest des Python-Codes ist hier aus Platzgründen gekürzt)
 
 print("CleanSweep initialisiert. Bereit zum Aufräumen.")
 
@@ -87,9 +86,9 @@ print("CleanSweep initialisiert. Bereit zum Aufräumen.")
             </section>
 
             <section class="call-to-action">
-                <h2>Bereit zum Aufräumen?</h2>
-                <p>Hol dir das vollständige Skript, die Anleitung und trage zum Projekt bei – alles auf GitHub.</p>
-                <a href="https://github.com/David-dev-web/Python-File-Sorter" target="_blank" class="github-button">
+                <h2 class="anim">Bereit zum Aufräumen?</h2>
+                <p class="anim">Hol dir das vollständige Skript, die Anleitung und trage zum Projekt bei – alles auf GitHub.</p>
+                <a href="https://github.com/David-dev-web/Python-File-Sorter" target="_blank" class="github-button anim">
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg>
                     <span>Projekt auf GitHub ansehen</span>
                 </a>
@@ -119,27 +118,30 @@ print("CleanSweep initialisiert. Bereit zum Aufräumen.")
             e.clearSelection();
         });
 
-        // NEU: GSAP Animationen
+        // GSAP Animationen
         document.addEventListener('DOMContentLoaded', () => {
-            gsap.registerPlugin(ScrollTrigger);
+            // Warten, bis GSAP geladen ist
+            if (typeof gsap !== 'undefined') {
+                gsap.registerPlugin(ScrollTrigger);
 
-            // Animation für alle Elemente mit der Klasse .anim
-            gsap.utils.toArray('.anim').forEach(element => {
-                gsap.fromTo(element, 
-                    { opacity: 0, y: 50 }, // Start-Zustand
-                    {
-                        opacity: 1,
-                        y: 0,
-                        duration: 0.8,
-                        ease: 'power3.out',
-                        scrollTrigger: {
-                            trigger: element,
-                            start: 'top 85%', // Animation startet, wenn 85% des Elements sichtbar sind
-                            toggleActions: 'play none none none',
+                // Animation für alle Elemente mit der Klasse .anim
+                gsap.utils.toArray('.anim').forEach(element => {
+                    gsap.fromTo(element, 
+                        { opacity: 0, y: 50 }, // Start-Zustand
+                        {
+                            opacity: 1,
+                            y: 0,
+                            duration: 0.8,
+                            ease: 'power3.out',
+                            scrollTrigger: {
+                                trigger: element,
+                                start: 'top 85%', // Animation startet, wenn 85% des Elements sichtbar sind
+                                toggleActions: 'play none none none',
+                            }
                         }
-                    }
-                );
-            });
+                    );
+                });
+            }
         });
     </script>
 
