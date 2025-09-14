@@ -3,92 +3,80 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Project CleanSweep - Automatisches Aufräum-Tool</title>
+    <title>Project CleanSweep - Dein intelligenter Aufräum-Assistent</title>
+    
+    <!-- SEO & Social Media Optimierung -->
+    <meta name="description" content="Ein intelligentes Python-Skript zur automatischen Organisation deines Downloads-Ordners. Halte dein System sauber und organisiert.">
+    <meta property="og:title" content="Project CleanSweep">
+    <meta property="og:description" content="Ein intelligentes Python-Skript zur automatischen Organisation deines Downloads-Ordners.">
+    <meta property="og:type" content="website">
+    <!-- <meta property="og:image" content="URL_ZUM_BILD_DEINER_SEITE"> -->
+    <!-- <meta property="og:url" content="URL_DEINER_FERTIGEN_SEITE"> -->
+
     <link rel="stylesheet" href="style.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;700&family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.11/dist/clipboard.min.js"></script>
     
-    <!-- GSAP Animations-Bibliothek -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.4/gsap.min.js" defer></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.4/ScrollTrigger.min.js" defer></script>
+    <!-- Bibliotheken -->
+    <script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.11/dist/clipboard.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js" defer></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js" defer></script>
+    <!-- NEU: TypeIt.js für den Tipp-Effekt -->
+    <script src="https://unpkg.com/typeit@8.7.1/dist/index.umd.js" defer></script>
 </head>
 <body>
 
+    <!-- NEU: Hintergrund-Gradienten-Blob für mehr Tiefe -->
+    <div class="gradient-blob"></div>
+
     <div class="container">
         <header>
-            <h1 class="anim">🧹 Project CleanSweep</h1>
-            <p class="subtitle anim">Ein intelligentes Python-Skript zur automatischen Organisation deines <code>Downloads</code>-Ordners.</p>
+            <div class="logo-icon anim-header">🧹</div>
+            <h1 class="anim-header">Project CleanSweep</h1>
+            <p class="subtitle anim-header">Ein intelligentes Python-Skript, das automatisch Ordnung in deinem <code>Downloads</code>-Ordner schafft.</p>
         </header>
 
         <main>
             <section class="features">
-                <div class="feature-item anim">
+                <div class="feature-item anim-fade-in">
+                    <div class="feature-icon">🗂️</div>
                     <h3>Automatische Sortierung</h3>
                     <p>Verschiebt Dateien basierend auf Typen wie Software, Dokumente und Bilder in dedizierte Ordner.</p>
                 </div>
-                <div class="feature-item anim">
+                <div class="feature-item anim-fade-in">
+                    <div class="feature-icon">⏳</div>
                     <h3>Intelligente Archivierung</h3>
-                    <p>Archiviert automatisch Dateien, die älter als 90 Tage sind, um Platz zu schaffen.</p>
+                    <p>Archiviert automatisch Dateien, die älter als 90 Tage sind, um wertvollen Platz zu schaffen.</p>
                 </div>
-                <div class="feature-item anim">
+                <div class="feature-item anim-fade-in">
+                    <div class="feature-icon">💻</div>
                     <h3>Plattformunabhängig</h3>
                     <p>Erkennt dein Betriebssystem (Windows/Linux ) und passt die Dateipfade automatisch an.</p>
                 </div>
             </section>
 
+            <div class="section-divider"></div>
+
             <section class="code-display">
-                <h2 class="anim">Der Code</h2>
-                <p class="anim">Das gesamte Skript ist Open Source. Du kannst es hier ansehen und direkt kopieren.</p>
+                <h2 class="anim-fade-in">Der Code in Aktion</h2>
+                <p class="anim-fade-in">Das gesamte Skript ist Open Source. Schau zu, wie es sich selbst schreibt.</p>
                 
-                <div class="code-wrapper anim">
+                <div class="code-wrapper anim-fade-in">
                     <button class="copy-button" data-clipboard-target="#code-block">
                         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
                         <span>Kopieren</span>
                     </button>
-                    <pre><code id="code-block" class="language-python">
-# 🧹 cleansweep.py
-# Ein intelligentes Python-Skript zur Organisation des Downloads-Ordners.
-
-import os
-import shutil
-import time
-from pathlib import Path
-import platform
-
-# --- KONFIGURATION ---
-USER_HOME = os.path.expanduser('~' )
-
-if platform.system() == "Windows":
-    ZIEL_BASIS_PFAD = os.path.join(USER_HOME, 'OneDrive', 'Desktop', 'stuff')
-else:
-    ZIEL_BASIS_PFAD = os.path.join(USER_HOME, 'Desktop', 'stuff')
-
-DOWNLOADS_PFAD = os.path.join(USER_HOME, 'Downloads')
-
-ORDNER_REGELN = {
-    "1_Projekte": ['.zip', '.rar', '.7z'],
-    "2_Software": ['.exe', '.msi', '.dmg', '.deb'],
-    "3_Assets": ['.png', '.jpg', '.jpeg', '.svg', '.mp3', '.wav'],
-    "4_Dokumente": ['.pdf', '.docx', '.txt', '.md'],
-    "5_Archiv": [],
-    "6_Betriebssysteme-Treiber-Isos": ['.iso']
-}
-ARCHIV_ALTER_TAGE = 90
-
-# (Der Rest des Python-Codes ist hier aus Platzgründen gekürzt)
-
-print("CleanSweep initialisiert. Bereit zum Aufräumen.")
-
-                    </code></pre>
+                    <pre><code id="code-block" class="language-python"></code></pre>
                 </div>
             </section>
 
+            <div class="section-divider"></div>
+
             <section class="call-to-action">
-                <h2 class="anim">Bereit zum Aufräumen?</h2>
-                <p class="anim">Hol dir das vollständige Skript, die Anleitung und trage zum Projekt bei – alles auf GitHub.</p>
-                <a href="https://github.com/David-dev-web/Python-File-Sorter" target="_blank" class="github-button anim">
+                <h2 class="anim-fade-in">Bereit zum Aufräumen?</h2>
+                <p class="anim-fade-in">Hol dir das vollständige Skript, die Anleitung und trage zum Projekt bei – alles auf GitHub.</p>
+                <a href="https://github.com/David-dev-web/Python-File-Sorter" target="_blank" class="github-button anim-fade-in">
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg>
                     <span>Projekt auf GitHub ansehen</span>
                 </a>
@@ -96,54 +84,11 @@ print("CleanSweep initialisiert. Bereit zum Aufräumen.")
         </main>
 
         <footer>
-            <p>&copy; 2025 David. Ein Open-Source-Projekt.</p>
+            <p>&copy; 2025 David. Ein Open-Source-Projekt mit ❤️ erstellt.</p>
         </footer>
     </div>
 
-    <script>
-        // Initialisiert die "Kopieren"-Funktionalität
-        const clipboard = new ClipboardJS('.copy-button' );
-
-        clipboard.on('success', function(e) {
-            const button = e.trigger;
-            const originalText = button.querySelector('span').textContent;
-            button.querySelector('span').textContent = 'Kopiert!';
-            button.classList.add('success');
-
-            setTimeout(() => {
-                button.querySelector('span').textContent = originalText;
-                button.classList.remove('success');
-            }, 2000);
-
-            e.clearSelection();
-        });
-
-        // GSAP Animationen
-        document.addEventListener('DOMContentLoaded', () => {
-            // Warten, bis GSAP geladen ist
-            if (typeof gsap !== 'undefined') {
-                gsap.registerPlugin(ScrollTrigger);
-
-                // Animation für alle Elemente mit der Klasse .anim
-                gsap.utils.toArray('.anim').forEach(element => {
-                    gsap.fromTo(element, 
-                        { opacity: 0, y: 50 }, // Start-Zustand
-                        {
-                            opacity: 1,
-                            y: 0,
-                            duration: 0.8,
-                            ease: 'power3.out',
-                            scrollTrigger: {
-                                trigger: element,
-                                start: 'top 85%', // Animation startet, wenn 85% des Elements sichtbar sind
-                                toggleActions: 'play none none none',
-                            }
-                        }
-                    );
-                });
-            }
-        });
-    </script>
+    <script src="script.js"></script>
 
 </body>
 </html>
