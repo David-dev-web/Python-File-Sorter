@@ -3,382 +3,52 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Project CleanSweep - Dein intelligenter Aufräum-Assistent</title>
-    
-    <!-- SEO & Social Media Optimierung -->
-    <meta name="description" content="Ein intelligentes Python-Skript zur automatischen Organisation deines Downloads-Ordners. Halte dein System sauber und organisiert.">
-    <meta property="og:title" content="Project CleanSweep">
-    <meta property="og:description" content="Ein intelligentes Python-Skript zur automatischen Organisation deines Downloads-Ordners.">
-    <meta property="og:type" content="website">
-
+    <title>Project CleanSweep - Automatisches Aufräum-Tool</title>
+    <link rel="stylesheet" href="style.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;700&family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
-    
-    <!-- Bibliotheken -->
     <script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.11/dist/clipboard.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
-    <script src="https://unpkg.com/typeit@8.7.1/dist/index.umd.js"></script>
-
-    <style>
-        /* === GRUNDEINSTELLUNGEN === */
-        :root {
-            --bg-color: #0d1117;
-            --surface-color: #161b22;
-            --text-primary: #e6edf3;
-            --text-secondary: #848d97;
-            --accent-color: #58a6ff;
-            --accent-glow: rgba(88, 166, 255, 0.3 );
-            --border-color: #30363d;
-            --success-color: #238636;
-            --font-sans: 'Inter', sans-serif;
-            --font-mono: 'Fira Code', monospace;
-        }
-
-        *, *::before, *::after {
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: var(--font-sans);
-            background-color: var(--bg-color);
-            color: var(--text-primary);
-            margin: 0;
-            line-height: 1.7;
-            -webkit-font-smoothing: antialiased;
-            overflow-x: hidden;
-        }
-
-        .gradient-blob {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 600px;
-            height: 600px;
-            background: radial-gradient(circle, var(--accent-glow), transparent 60%);
-            border-radius: 50%;
-            filter: blur(100px);
-            z-index: -1;
-            pointer-events: none;
-            animation: move-blob 20s infinite alternate ease-in-out;
-        }
-
-        @keyframes move-blob {
-            0% { transform: translate(-20%, -20%); }
-            100% { transform: translate(80vw, 60vh); }
-        }
-
-        .container {
-            max-width: 900px;
-            margin: 0 auto;
-            padding: 40px 20px;
-            position: relative;
-            z-index: 1;
-        }
-
-        header {
-            text-align: center;
-            padding: 80px 0;
-        }
-
-        .logo-icon {
-            font-size: 4rem;
-            line-height: 1;
-            margin-bottom: 20px;
-            animation: float 3s infinite alternate ease-in-out;
-        }
-
-        @keyframes float {
-            0% { transform: translateY(-10px); }
-            100% { transform: translateY(10px); }
-        }
-
-        header h1 {
-            font-size: clamp(2.5rem, 10vw, 4.5rem);
-            font-weight: 900;
-            margin: 0 0 10px 0;
-            letter-spacing: -0.03em;
-        }
-
-        header .subtitle {
-            font-size: 1.25rem;
-            color: var(--text-secondary);
-            max-width: 600px;
-            margin: 0 auto;
-        }
-
-        header code {
-            background-color: var(--surface-color);
-            color: var(--accent-color);
-            padding: 3px 8px;
-            border-radius: 6px;
-            font-family: var(--font-mono);
-            border: 1px solid var(--border-color);
-        }
-
-        main section {
-            padding: 60px 0;
-        }
-
-        h2 {
-            font-size: 2.8rem;
-            font-weight: 700;
-            text-align: center;
-            margin-bottom: 10px;
-            letter-spacing: -0.02em;
-        }
-
-        section > p {
-            text-align: center;
-            color: var(--text-secondary);
-            font-size: 1.1rem;
-            margin-bottom: 60px;
-        }
-
-        .section-divider {
-            height: 1px;
-            background: linear-gradient(to right, transparent, var(--border-color), transparent);
-            margin: 20px 0;
-        }
-
-        .features {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 30px;
-        }
-
-        .feature-item {
-            background-color: rgba(22, 27, 34, 0.8);
-            backdrop-filter: blur(10px);
-            padding: 30px;
-            border: 1px solid var(--border-color);
-            border-radius: 12px;
-            transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
-            text-align: center;
-        }
-
-        .feature-item:hover {
-            transform: translateY(-8px);
-            border-color: var(--accent-color);
-            box-shadow: 0 15px 30px rgba(0,0,0,0.25);
-        }
-
-        .feature-icon {
-            font-size: 2.5rem;
-            margin-bottom: 15px;
-        }
-
-        .feature-item h3 {
-            font-size: 1.5rem;
-            margin: 0 0 10px 0;
-        }
-
-        .feature-item p {
-            margin: 0;
-            color: var(--text-secondary);
-        }
-
-        .code-wrapper {
-            position: relative;
-        }
-
-        pre {
-            background-color: #010409;
-            border: 1px solid var(--border-color);
-            border-radius: 12px;
-            padding: 40px 30px;
-            overflow-x: auto;
-            font-family: var(--font-mono);
-            font-size: 0.95rem;
-            line-height: 1.8;
-            min-height: 300px;
-        }
-
-        .ti-cursor {
-            color: var(--accent-color);
-            animation: blink 0.5s infinite alternate;
-        }
-        @keyframes blink {
-            0% { opacity: 1; }
-            100% { opacity: 0; }
-        }
-
-        .copy-button {
-            position: absolute;
-            top: 15px;
-            right: 15px;
-            background-color: #21262d;
-            border: 1px solid var(--border-color);
-            color: var(--text-secondary);
-            padding: 8px 12px;
-            border-radius: 8px;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            transition: all 0.2s ease;
-            z-index: 2;
-        }
-
-        .copy-button:hover {
-            background-color: #30363d;
-            color: var(--text-primary);
-        }
-
-        .copy-button.success {
-            background-color: var(--success-color);
-            border-color: #2ea043;
-            color: white;
-        }
-
-        .call-to-action {
-            text-align: center;
-        }
-
-        .github-button {
-            display: inline-flex;
-            align-items: center;
-            gap: 12px;
-            background-color: var(--accent-color);
-            color: #0d1117;
-            text-decoration: none;
-            font-size: 1.1rem;
-            font-weight: 700;
-            padding: 15px 30px;
-            border: 1px solid var(--accent-color);
-            border-radius: 8px;
-            transition: all 0.2s ease;
-            box-shadow: 0 0 20px rgba(88, 166, 255, 0.4);
-        }
-
-        .github-button:hover {
-            transform: scale(1.05);
-            box-shadow: 0 0 30px rgba(88, 166, 255, 0.6);
-        }
-
-        footer {
-            text-align: center;
-            padding: 40px 0;
-            color: var(--text-secondary);
-        }
-
-        .anim-header, .anim-fade-in {
-            opacity: 0;
-        }
-    </style>
+    
+    <!-- GSAP Animations-Bibliothek -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.4/gsap.min.js" defer></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.4/ScrollTrigger.min.js" defer></script>
 </head>
 <body>
 
-    <div class="gradient-blob"></div>
-
     <div class="container">
         <header>
-            <div class="logo-icon anim-header">🧹</div>
-            <h1 class="anim-header">Project CleanSweep</h1>
-            <p class="subtitle anim-header">Ein intelligentes Python-Skript, das automatisch Ordnung in deinem <code>Downloads</code>-Ordner schafft.</p>
+            <h1 class="anim">🧹 Project CleanSweep</h1>
+            <p class="subtitle anim">Ein intelligentes Python-Skript zur automatischen Organisation deines <code>Downloads</code>-Ordners.</p>
         </header>
 
         <main>
             <section class="features">
-                <div class="feature-item anim-fade-in">
-                    <div class="feature-icon">🗂️</div>
+                <div class="feature-item anim">
                     <h3>Automatische Sortierung</h3>
                     <p>Verschiebt Dateien basierend auf Typen wie Software, Dokumente und Bilder in dedizierte Ordner.</p>
                 </div>
-                <div class="feature-item anim-fade-in">
-                    <div class="feature-icon">⏳</div>
+                <div class="feature-item anim">
                     <h3>Intelligente Archivierung</h3>
-                    <p>Archiviert automatisch Dateien, die älter als 90 Tage sind, um wertvollen Platz zu schaffen.</p>
+                    <p>Archiviert automatisch Dateien, die älter als 90 Tage sind, um Platz zu schaffen.</p>
                 </div>
-                <div class="feature-item anim-fade-in">
-                    <div class="feature-icon">💻</div>
+                <div class="feature-item anim">
                     <h3>Plattformunabhängig</h3>
-                    <p>Erkennt dein Betriebssystem (Windows/Linux) und passt die Dateipfade automatisch an.</p>
+                    <p>Erkennt dein Betriebssystem (Windows/Linux ) und passt die Dateipfade automatisch an.</p>
                 </div>
             </section>
 
-            <div class="section-divider"></div>
-
             <section class="code-display">
-                <h2 class="anim-fade-in">Der Code in Aktion</h2>
-                <p class="anim-fade-in">Das gesamte Skript ist Open Source. Schau zu, wie es sich selbst schreibt.</p>
+                <h2 class="anim">Der Code</h2>
+                <p class="anim">Das gesamte Skript ist Open Source. Du kannst es hier ansehen und direkt kopieren.</p>
                 
-                <div class="code-wrapper anim-fade-in">
+                <div class="code-wrapper anim">
                     <button class="copy-button" data-clipboard-target="#code-block">
                         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
                         <span>Kopieren</span>
                     </button>
-                    <pre><code id="code-block" class="language-python"></code></pre>
-                </div>
-            </section>
-
-            <div class="section-divider"></div>
-
-            <section class="call-to-action">
-                <h2 class="anim-fade-in">Bereit zum Aufräumen?</h2>
-                <p class="anim-fade-in">Hol dir das vollständige Skript, die Anleitung und trage zum Projekt bei – alles auf GitHub.</p>
-                <a href="https://github.com/David-dev-web/Python-File-Sorter" target="_blank" class="github-button anim-fade-in">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg>
-                    <span>Projekt auf GitHub ansehen</span>
-                </a>
-            </section>
-        </main>
-
-        <footer>
-            <p>&copy; 2025 David. Ein Open-Source-Projekt mit ❤️ erstellt.</p>
-        </footer>
-    </div>
-
-    <script>
-        document.addEventListener('DOMContentLoaded', ( ) => {
-            
-            // --- Clipboard.js Initialisierung ---
-            const clipboard = new ClipboardJS('.copy-button');
-
-            clipboard.on('success', function(e) {
-                const button = e.trigger;
-                const originalText = button.querySelector('span').textContent;
-                button.querySelector('span').textContent = 'Kopiert!';
-                button.classList.add('success');
-
-                setTimeout(() => {
-                    button.querySelector('span').textContent = originalText;
-                    button.classList.remove('success');
-                }, 2000);
-
-                e.clearSelection();
-            });
-
-            // --- GSAP & TypeIt Animationen ---
-            // Header-Animation (gestaffelt)
-            gsap.timeline()
-                .from(".anim-header", {
-                    duration: 0.8,
-                    y: 50,
-                    opacity: 0,
-                    ease: "power3.out",
-                    stagger: 0.2
-                });
-
-            // Allgemeine Fade-In-Animation für Sektionen
-            gsap.utils.toArray('.anim-fade-in').forEach(element => {
-                gsap.from(element, {
-                    opacity: 0,
-                    y: 50,
-                    duration: 0.8,
-                    ease: 'power3.out',
-                    scrollTrigger: {
-                        trigger: element,
-                        start: 'top 85%',
-                        toggleActions: 'play none none none',
-                    }
-                });
-            });
-
-            // TypeIt.js Code-Block Animation
-            const codeBlockElement = document.getElementById('code-block');
-            const codeContent = `# 🧹 cleansweep.py
+                    <pre><code id="code-block" class="language-python">
+# 🧹 cleansweep.py
 # Ein intelligentes Python-Skript zur Organisation des Downloads-Ordners.
 
 import os
@@ -388,49 +58,90 @@ from pathlib import Path
 import platform
 
 # --- KONFIGURATION ---
-# Finde den Home-Ordner des aktuellen Benutzers
-USER_HOME = os.path.expanduser('~')
+USER_HOME = os.path.expanduser('~' )
 
-# Passe den Zielpfad basierend auf dem Betriebssystem an
 if platform.system() == "Windows":
-    ZIEL_BASIS_PFAD = os.path.join(USER_HOME, 'OneDrive', 'Desktop', 'CleanSweep-Sortierung')
+    ZIEL_BASIS_PFAD = os.path.join(USER_HOME, 'OneDrive', 'Desktop', 'stuff')
 else:
-    ZIEL_BASIS_PFAD = os.path.join(USER_HOME, 'Desktop', 'CleanSweep-Sortierung')
+    ZIEL_BASIS_PFAD = os.path.join(USER_HOME, 'Desktop', 'stuff')
 
 DOWNLOADS_PFAD = os.path.join(USER_HOME, 'Downloads')
 
-# Definiere Regeln für die Sortierung
 ORDNER_REGELN = {
-    "1_Projekte": ['.zip', '.rar', '.7z', '.tar.gz'],
-    "2_Software": ['.exe', '.msi', '.dmg', '.deb', '.appimage'],
-    "3_Assets": ['.png', '.jpg', '.jpeg', '.gif', '.svg', '.psd', '.mp3', '.wav'],
-    "4_Dokumente": ['.pdf', '.docx', '.doc', '.txt', '.md', '.pptx'],
-    "5_Archiv": [], # Wird für alte Dateien verwendet
-    "6_Betriebssystem-ISOs": ['.iso']
+    "1_Projekte": ['.zip', '.rar', '.7z'],
+    "2_Software": ['.exe', '.msi', '.dmg', '.deb'],
+    "3_Assets": ['.png', '.jpg', '.jpeg', '.svg', '.mp3', '.wav'],
+    "4_Dokumente": ['.pdf', '.docx', '.txt', '.md'],
+    "5_Archiv": [],
+    "6_Betriebssysteme-Treiber-Isos": ['.iso']
 }
-ARCHIV_ALTER_TAGE = 90 # Dateien älter als 90 Tage werden archiviert
+ARCHIV_ALTER_TAGE = 90
 
-# ... (Der Rest des Codes wird hier ausgeführt)
+# (Der Rest des Python-Codes ist hier aus Platzgründen gekürzt)
 
-print("CleanSweep initialisiert. Bereit zum Aufräumen.")`;
+print("CleanSweep initialisiert. Bereit zum Aufräumen.")
 
-            // Setze den Code-Inhalt für den Kopieren-Button
-            codeBlockElement.textContent = codeContent;
+                    </code></pre>
+                </div>
+            </section>
 
-            // Erstelle die TypeIt-Instanz, wenn der Code-Block sichtbar wird
-            ScrollTrigger.create({
-                trigger: ".code-wrapper",
-                start: "top 70%",
-                once: true,
-                onEnter: () => {
-                    new TypeIt('#code-block', {
-                        strings: [codeContent],
-                        speed: 25,
-                        waitUntilVisible: true,
-                        cursorChar: '▋'
-                    }).go();
-                }
-            });
+            <section class="call-to-action">
+                <h2 class="anim">Bereit zum Aufräumen?</h2>
+                <p class="anim">Hol dir das vollständige Skript, die Anleitung und trage zum Projekt bei – alles auf GitHub.</p>
+                <a href="https://github.com/David-dev-web/Python-File-Sorter" target="_blank" class="github-button anim">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg>
+                    <span>Projekt auf GitHub ansehen</span>
+                </a>
+            </section>
+        </main>
+
+        <footer>
+            <p>&copy; 2025 David. Ein Open-Source-Projekt.</p>
+        </footer>
+    </div>
+
+    <script>
+        // Initialisiert die "Kopieren"-Funktionalität
+        const clipboard = new ClipboardJS('.copy-button' );
+
+        clipboard.on('success', function(e) {
+            const button = e.trigger;
+            const originalText = button.querySelector('span').textContent;
+            button.querySelector('span').textContent = 'Kopiert!';
+            button.classList.add('success');
+
+            setTimeout(() => {
+                button.querySelector('span').textContent = originalText;
+                button.classList.remove('success');
+            }, 2000);
+
+            e.clearSelection();
+        });
+
+        // GSAP Animationen
+        document.addEventListener('DOMContentLoaded', () => {
+            // Warten, bis GSAP geladen ist
+            if (typeof gsap !== 'undefined') {
+                gsap.registerPlugin(ScrollTrigger);
+
+                // Animation für alle Elemente mit der Klasse .anim
+                gsap.utils.toArray('.anim').forEach(element => {
+                    gsap.fromTo(element, 
+                        { opacity: 0, y: 50 }, // Start-Zustand
+                        {
+                            opacity: 1,
+                            y: 0,
+                            duration: 0.8,
+                            ease: 'power3.out',
+                            scrollTrigger: {
+                                trigger: element,
+                                start: 'top 85%', // Animation startet, wenn 85% des Elements sichtbar sind
+                                toggleActions: 'play none none none',
+                            }
+                        }
+                    );
+                });
+            }
         });
     </script>
 
